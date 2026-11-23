@@ -1,6 +1,19 @@
 {
- "charts": [],
- "content": "[{\"id\": \"reg-h1\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Registry</b></span>\", \"col\": 12}}, {\"id\": \"reg-s0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Correspondence\", \"col\": 3}}, {\"id\": \"reg-s1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Registry File\", \"col\": 3}}, {\"id\": \"reg-s2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Subject\", \"col\": 3}}, {\"id\": \"reg-s3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Index\", \"col\": 3}}, {\"id\": \"reg-sp\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"reg-c0\", \"type\": \"card\", \"data\": {\"card_name\": \"Files\", \"col\": 3}}, {\"id\": \"reg-c1\", \"type\": \"card\", \"data\": {\"card_name\": \"Correspondence\", \"col\": 3}}, {\"id\": \"reg-c2\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 3}}, {\"id\": \"reg-c3\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 3}}]",
+ "charts": [
+  {
+   "chart_name": "Pending Correspondence by Department",
+   "label": "Pending Correspondence by Department"
+  },
+  {
+   "chart_name": "Pending Correspondence by Officer",
+   "label": "Pending Correspondence by Officer"
+  },
+  {
+   "chart_name": "Correspondence by Stage",
+   "label": "Correspondence by Stage"
+  }
+ ],
+ "content": "[{\"id\": \"reg-h1\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Registry</b></span>\", \"col\": 12}}, {\"id\": \"reg-n0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Correspondence\", \"col\": 3}}, {\"id\": \"reg-n1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue Correspondence\", \"col\": 3}}, {\"id\": \"reg-s0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Correspondence\", \"col\": 3}}, {\"id\": \"reg-s1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Registry File\", \"col\": 3}}, {\"id\": \"reg-s2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Subject\", \"col\": 3}}, {\"id\": \"reg-s3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Index\", \"col\": 3}}, {\"id\": \"reg-s4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pending Correspondence\", \"col\": 3}}, {\"id\": \"reg-sp\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"reg-ch0\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Pending Correspondence by Department\", \"col\": 6}}, {\"id\": \"reg-ch1\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Pending Correspondence by Officer\", \"col\": 6}}, {\"id\": \"reg-ch2\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Correspondence by Stage\", \"col\": 12}}, {\"id\": \"reg-sp2\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"reg-c0\", \"type\": \"card\", \"data\": {\"card_name\": \"Files\", \"col\": 3}}, {\"id\": \"reg-c1\", \"type\": \"card\", \"data\": {\"card_name\": \"Correspondence\", \"col\": 3}}, {\"id\": \"reg-c2\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 3}}, {\"id\": \"reg-c3\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 3}}]",
  "creation": "2026-11-23 13:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -98,7 +111,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 1,
+   "link_count": 2,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -114,10 +127,21 @@
    "type": "Link"
   },
   {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Pending Correspondence",
+   "link_count": 0,
+   "link_to": "Pending Correspondence",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
    "hidden": 0,
    "is_query_report": 0,
    "label": "Setup",
-   "link_count": 4,
+   "link_count": 6,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -164,13 +188,44 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Notification",
+   "link_count": 0,
+   "link_to": "Notification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Workflow",
+   "link_count": 0,
+   "link_to": "Workflow",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-11-23 16:00:00.000000",
+ "modified": "2026-11-23 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Registry",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Pending Correspondence",
+   "number_card_name": "Pending Correspondence"
+  },
+  {
+   "label": "Overdue Correspondence",
+   "number_card_name": "Overdue Correspondence"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
@@ -204,6 +259,13 @@
    "doc_view": "",
    "label": "File Index",
    "link_to": "File Index",
+   "type": "Report"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "",
+   "label": "Pending Correspondence",
+   "link_to": "Pending Correspondence",
    "type": "Report"
   }
  ],

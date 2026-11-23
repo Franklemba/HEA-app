@@ -5,11 +5,27 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
-from frappe.utils import cint
+from frappe.utils import add_days, cint, getdate, nowdate
 
 from hea.registry.drive import DRIVE_URL_PREFIX, file_scan_in_drive
 
 SERIES_FIELD = {"Incoming": "incoming_series", "Outgoing": "outgoing_series", "Internal": "internal_series"}
+REGISTRY_ROLES = {"Documentation and Registry Officer", "Registry Staff", "System Manager"}
+
+# Stage -> who has the item. None means Registry.
+HOLDER_FIELD = {
+	"Assigned to Department": "department_head",
+	"Assigned to Officer": "assigned_officer",
+	"Action Taken": "department_head",
+	"Under Review": "department_head",
+}
+FINISHED_STAGES = ("Filed", "Closed")
+
+# What a head or an officer may change on an item; everything else is Registry's.
+HEAD_FIELDS = {"assigned_officer", "due_date", "send_back_reason", "send_back_pending", "escalation_level", "escalated_on"}
+OFFICER_FIELDS = {"action_taken"}
+# Checked by the workflow (stage) or worked out again on every save (holder).
+SYSTEM_FIELDS = {"workflow_state", "current_holder"}
 
 
 class Correspondence(Document):
@@ -22,8 +38,13 @@ class Correspondence(Document):
 
 	def validate(self):
 		self.subject = " ".join((self.subject or "").split())
+		self.check_edit_rights()
 		self.check_file_is_open()
 		self.assign_folio()
+		self.set_department_head()
+		self.set_due_date()
+		self.check_stage_change()
+		self.set_current_holder()
 		if self.direction != "Outgoing":
 			for field in ("copies_sent_to", "dispatch_mode", "dispatched_on", "dispatched_by", "received_by"):
 				self.set(field, None)
@@ -31,6 +52,100 @@ class Correspondence(Document):
 	def on_update(self):
 		if self.scan and self.registry_file and not self.scan.startswith(DRIVE_URL_PREFIX):
 			file_scan_in_drive(self)
+
+	# ---- routing ---------------------------------------------------------------------------------
+
+	def is_registry_user(self):
+		return bool(REGISTRY_ROLES.intersection(frappe.get_roles()))
+
+	def check_edit_rights(self):
+		"""Heads and officers act on an item through its stages; only Registry edits the registration details."""
+		if self.is_new() or self.is_registry_user() or frappe.flags.in_escalation:
+			return
+		before = self.get_doc_before_save()
+		changed = {df.fieldname for df in self.meta.fields if before and before.get(df.fieldname) != self.get(df.fieldname)}
+		user = frappe.session.user
+		allowed = set(SYSTEM_FIELDS)
+		if user == (before.department_head if before else None):
+			allowed |= HEAD_FIELDS
+		if user == (before.assigned_officer if before else None):
+			allowed |= OFFICER_FIELDS
+		not_allowed = changed - allowed
+		if not_allowed:
+			labels = ", ".join(_(self.meta.get_label(f)) for f in sorted(not_allowed))
+			frappe.throw(_("You cannot change {0} on this item.").format(labels), frappe.PermissionError)
+
+	def set_department_head(self):
+		if self.direction == "Outgoing" or not self.department:
+			return
+		if self.is_new() or self.has_value_changed("department") or not self.department_head:
+			self.department_head = department_head(self.department)
+
+	def set_due_date(self):
+		if self.direction == "Outgoing" or self.due_date or not self.urgency:
+			return
+		days = frappe.db.get_value("Correspondence Urgency", self.urgency, "response_days")
+		if days:
+			self.due_date = add_days(self.register_date or nowdate(), cint(days))
+
+	def check_stage_change(self):
+		if self.is_new() or not self.has_value_changed("workflow_state"):
+			return
+		before = self.get_doc_before_save().workflow_state
+		stage = self.workflow_state
+		if stage == "Assigned to Department":
+			if not self.department:
+				frappe.throw(_("Set the Department Responsible first."))
+			if not self.department_head:
+				frappe.throw(_("No Departmental Head is set for {0} in Registry Settings.").format(frappe.bold(self.department)))
+		if stage == "Assigned to Officer":
+			if not self.assigned_officer:
+				frappe.throw(_("Choose the Action Officer first."))
+			if before == "Under Review":
+				if not self.send_back_pending:
+					frappe.throw(_("Give the reason for sending the item back."))
+				self.send_back_pending = 0
+		if stage == "Action Taken" and not (self.action_taken or "").strip():
+			frappe.throw(_("Record the action taken first."))
+		if stage == "Filed" and not (self.registry_file and self.folio_number):
+			frappe.throw(_("Put the item on a file and folio before filing it."))
+		if stage in FINISHED_STAGES or stage == "Approved":
+			self.escalation_level = None
+
+	def set_current_holder(self):
+		field = HOLDER_FIELD.get(self.workflow_state)
+		self.current_holder = self.get(field) if field else None
+
+	@frappe.whitelist()
+	def prepare_action(self, action, values=None):
+		"""Save what a workflow action needs (officer, action taken, send-back reason) before the action runs."""
+		values = frappe._dict(frappe.parse_json(values) or {})
+		if action == "Assign to Officer":
+			self.assigned_officer = values.assigned_officer
+			if values.due_date:
+				self.due_date = values.due_date
+		elif action == "Record Action":
+			self.action_taken = values.action_taken
+		elif action == "Send Back":
+			reason = (values.reason or "").strip()
+			if not reason:
+				frappe.throw(_("Give the reason for sending the item back."))
+			self.send_back_reason = reason
+			self.send_back_pending = 1
+		else:
+			return
+		self.save()
+		if action == "Send Back":
+			self.add_comment("Comment", _("Sent back: {0}").format(reason))
+
+	@frappe.whitelist()
+	def change_due_date(self, due_date, reason=None):
+		self.due_date = getdate(due_date)
+		self.escalation_level = None
+		self.escalated_on = None
+		self.save()
+		self.add_comment("Info", _("Due date changed to {0}. {1}").format(
+			frappe.format(self.due_date, "Date"), reason or ""))
 
 	def check_file_is_open(self):
 		if not self.registry_file or not (self.is_new() or self.has_value_changed("registry_file")):
@@ -111,3 +226,36 @@ def next_insert_letter(used):
 		n, rem = divmod(n - 1, 26)
 		letters = chr(65 + rem) + letters
 	return letters
+
+
+def department_head(department):
+	return frappe.db.get_value(
+		"Registry Department Head",
+		{"parent": "Registry Settings", "parenttype": "Registry Settings", "department": department},
+		"head",
+	)
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def officer_query(doctype, txt, searchfield, start, page_len, filters):
+	"""Staff of the department (from Employee), or all active desk users when none are linked."""
+	department = (filters or {}).get("department")
+	like = f"%{txt}%"
+	if department:
+		rows = frappe.db.sql(
+			"""select e.user_id, e.employee_name from `tabEmployee` e
+			where e.department=%s and e.status='Active' and ifnull(e.user_id, '')!=''
+			and (e.user_id like %s or e.employee_name like %s)
+			order by e.employee_name limit %s offset %s""",
+			(department, like, like, page_len, start),
+		)
+		if rows:
+			return rows
+	return frappe.db.sql(
+		"""select name, full_name from `tabUser`
+		where enabled=1 and user_type='System User' and name not in ('Administrator', 'Guest')
+		and (name like %s or full_name like %s)
+		order by full_name limit %s offset %s""",
+		(like, like, page_len, start),
+	)

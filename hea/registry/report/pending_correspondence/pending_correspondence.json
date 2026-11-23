@@ -1,0 +1,42 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-11-23 18:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letterhead": null,
+ "modified": "2026-11-23 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Registry",
+ "name": "Pending Correspondence",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Correspondence",
+ "report_name": "Pending Correspondence",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Documentation and Registry Officer"
+  },
+  {
+   "role": "Registry Staff"
+  },
+  {
+   "role": "Departmental Head"
+  },
+  {
+   "role": "General Staff"
+  },
+  {
+   "role": "Management and Authorised Auditors"
+  }
+ ],
+ "timeout": 0
+}

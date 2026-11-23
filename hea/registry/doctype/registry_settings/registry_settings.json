@@ -17,7 +17,12 @@
   "drive_section",
   "drive_team",
   "column_break_drive",
-  "drive_root_folder"
+  "drive_root_folder",
+  "routing_section",
+  "department_heads",
+  "column_break_routing",
+  "escalation_contacts",
+  "management_escalation_days"
  ],
  "fields": [
   {
@@ -105,12 +110,43 @@
    "fieldname": "drive_root_folder",
    "fieldtype": "Data",
    "label": "Folder for Registry Files"
+  },
+  {
+   "description": "Who receives items for each department, and who overdue items go to. Due dates come from each urgency's Days to Respond; reminders are set in the Notification list.",
+   "fieldname": "routing_section",
+   "fieldtype": "Section Break",
+   "label": "Routing and Deadlines"
+  },
+  {
+   "fieldname": "department_heads",
+   "fieldtype": "Table",
+   "label": "Departmental Heads",
+   "options": "Registry Department Head"
+  },
+  {
+   "fieldname": "column_break_routing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Overdue items go first to the Departmental Head, then to these people.",
+   "fieldname": "escalation_contacts",
+   "fieldtype": "Table MultiSelect",
+   "label": "Escalate Overdue Items to Management",
+   "options": "Registry Escalation Contact"
+  },
+  {
+   "default": "3",
+   "description": "How many days after the Departmental Head is told an item is overdue it goes to Management.",
+   "fieldname": "management_escalation_days",
+   "fieldtype": "Int",
+   "label": "Days Overdue Before Management",
+   "non_negative": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-23 16:00:00.000000",
+ "modified": "2026-11-23 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Registry Settings",

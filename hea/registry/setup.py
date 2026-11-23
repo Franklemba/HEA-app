@@ -75,11 +75,19 @@ def ensure_starting_lists():
 			frappe.get_doc({"doctype": "Delivery Mode", "mode": mode}).insert(ignore_permissions=True)
 
 
+def before_migrate():
+	ensure_roles()
+	from hea.registry.routing_setup import ensure_charts
+	ensure_charts()  # before the workspace that shows them is synced
+
+
 def after_migrate():
 	ensure_roles()
 	ensure_settings()
 	ensure_subject_groups()
 	ensure_starting_lists()
+	from hea.registry.routing_setup import setup_routing
+	setup_routing()
 
 
 def import_file_index():
