@@ -61,6 +61,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "File Title",
+   "length": 255,
    "reqd": 1
   },
   {
