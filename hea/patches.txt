@@ -6,3 +6,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 hea.patches.set_registry_file_status
 hea.patches.registry_notifications_in_system
+hea.patches.set_file_locations

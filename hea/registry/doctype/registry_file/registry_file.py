@@ -39,17 +39,59 @@ class RegistryFile(Document):
 			frappe.throw(_("Files are opened under a subject, not a group."))
 		self.status = self.status or "Open"
 		if self.flags.from_index:
+			self.set_current_location()
 			# Existing paper files keep their index title; a vague one is flagged for Registry, not refused.
 			bad = [w for w in blocked_titles() if w.lower() in self.file_title.lower()]
 			if bad:
 				self.needs_review = 1
 				self.review_note = "; ".join(filter(None, [self.review_note, f"Vague title ({bad[0]}): retitle"]))
 			return
-		check_title(self.file_title)
+		self.set_current_location()
+		if self.is_new() or self.has_value_changed("file_title"):
+			# Only when the title is set or changed, so older titles never block issuing or closing a file.
+			check_title(self.file_title)
 		if self.is_new():
 			self.status = "Open"
 			self.opened_on = self.opened_on or nowdate()
 			self.opened_by = self.opened_by or frappe.session.user
+
+	def set_current_location(self):
+		if self.holder:
+			self.current_location = _("With {0}").format(frappe.utils.get_fullname(self.holder))
+		else:
+			self.current_location = self.physical_location or settings_value("registry_location", "Registry")
+
+	# ---- paper file movement (see hea.registry.movement) -----------------------------------------
+
+	@frappe.whitelist()
+	def issue_file(self, to_user, due_back=None, urgency=None, correspondence=None, remarks=None):
+		from hea.registry.movement import issue
+		return issue(self.name, to_user, due_back, urgency, correspondence, remarks).name
+
+	@frappe.whitelist()
+	def transfer_file(self, to_user, due_back=None, urgency=None, correspondence=None, remarks=None):
+		from hea.registry.movement import transfer
+		return transfer(self.name, to_user, due_back, urgency, correspondence, remarks).name
+
+	@frappe.whitelist()
+	def return_file(self, remarks=None):
+		from hea.registry.movement import return_to_registry
+		return return_to_registry(self.name, remarks).name
+
+	@frappe.whitelist()
+	def extend_due_back(self, due_back, reason=None):
+		from hea.registry.movement import extend_due_back
+		extend_due_back(self.name, due_back, reason)
+
+	@frappe.whitelist()
+	def mark_put_away(self, note=None):
+		from hea.registry.movement import mark_put_away
+		mark_put_away(self.name, note)
+
+	@frappe.whitelist()
+	def set_bring_up(self, bring_up_date=None, note=None):
+		from hea.registry.movement import set_bring_up
+		set_bring_up(self.name, bring_up_date, note)
 
 	@frappe.whitelist()
 	def close_file(self, reason=None):

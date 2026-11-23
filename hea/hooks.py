@@ -164,7 +164,7 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
-	"daily": ["hea.registry.escalation.escalate_overdue"],
+	"daily": ["hea.registry.escalation.escalate_overdue", "hea.registry.movement.flag_overdue_files"],
 }
 
 # scheduler_events = {

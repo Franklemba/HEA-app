@@ -22,7 +22,12 @@
   "department_heads",
   "column_break_routing",
   "escalation_contacts",
-  "management_escalation_days"
+  "management_escalation_days",
+  "movement_section",
+  "file_keep_days",
+  "overdue_reminder_days",
+  "column_break_movement",
+  "registry_location"
  ],
  "fields": [
   {
@@ -141,12 +146,45 @@
    "fieldtype": "Int",
    "label": "Days Overdue Before Management",
    "non_negative": 1
+  },
+  {
+   "description": "Paper files go out from Registry and come back to it; transfers between users go through Registry.",
+   "fieldname": "movement_section",
+   "fieldtype": "Section Break",
+   "label": "File Movement"
+  },
+  {
+   "default": "5",
+   "description": "Due-back date for a file issued without one. The file index allows up to 5 days.",
+   "fieldname": "file_keep_days",
+   "fieldtype": "Int",
+   "label": "Days a File May Be Kept",
+   "non_negative": 1
+  },
+  {
+   "default": "3",
+   "description": "How often the holder and Registry are reminded about a file kept past its due date. 0 = only once.",
+   "fieldname": "overdue_reminder_days",
+   "fieldtype": "Int",
+   "label": "Remind Again Every (Days)",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_movement",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Registry",
+   "description": "Shown as a file's location when it is in Registry and has no shelf set.",
+   "fieldname": "registry_location",
+   "fieldtype": "Data",
+   "label": "Registry Location"
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-23 18:00:00.000000",
+ "modified": "2026-11-23 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Registry Settings",

@@ -88,6 +88,8 @@ def after_migrate():
 	ensure_starting_lists()
 	from hea.registry.routing_setup import setup_routing
 	setup_routing()
+	from hea.registry.movement_setup import setup_movement
+	setup_movement()
 
 
 def import_file_index():

@@ -18,6 +18,24 @@
   "physical_location",
   "column_break_2",
   "drive_folder",
+  "whereabouts_section",
+  "current_location",
+  "holder",
+  "current_movement",
+  "column_break_where",
+  "out_since",
+  "due_back",
+  "is_overdue",
+  "bring_up_section",
+  "bring_up_date",
+  "bring_up_by",
+  "bring_up_note",
+  "column_break_bu",
+  "put_away_requested",
+  "put_away_by",
+  "put_away_on",
+  "history_section",
+  "movement_history",
   "lifecycle_section",
   "opened_on",
   "opened_by",
@@ -134,6 +152,131 @@
    "read_only": 1
   },
   {
+   "fieldname": "whereabouts_section",
+   "fieldtype": "Section Break",
+   "label": "Whereabouts"
+  },
+  {
+   "bold": 1,
+   "fieldname": "current_location",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Current Location",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "holder",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Held By",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_movement",
+   "fieldtype": "Link",
+   "label": "Current Movement",
+   "no_copy": 1,
+   "options": "File Movement",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_where",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "out_since",
+   "fieldtype": "Datetime",
+   "label": "Out Since",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "due_back",
+   "fieldtype": "Date",
+   "label": "Due Back",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_overdue",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Overdue",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.bring_up_date || doc.put_away_requested",
+   "fieldname": "bring_up_section",
+   "fieldtype": "Section Break",
+   "label": "Bring Up and Put Away"
+  },
+  {
+   "fieldname": "bring_up_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Bring Up (BU) Date",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "bring_up_by",
+   "fieldtype": "Link",
+   "label": "Bring Up For",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bring_up_note",
+   "fieldtype": "Small Text",
+   "label": "Bring Up Note",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "put_away_requested",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Marked Put Away (PA)",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "put_away_by",
+   "fieldtype": "Link",
+   "label": "Put Away By",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "put_away_on",
+   "fieldtype": "Datetime",
+   "label": "Put Away On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "history_section",
+   "fieldtype": "Section Break",
+   "label": "Movement History"
+  },
+  {
+   "fieldname": "movement_history",
+   "fieldtype": "HTML",
+   "label": "Movement History"
+  },
+  {
    "fieldname": "lifecycle_section",
    "fieldtype": "Section Break",
    "label": "Opening and Closing"
@@ -208,7 +351,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-23 16:00:00.000000",
+ "modified": "2026-11-23 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Registry File",

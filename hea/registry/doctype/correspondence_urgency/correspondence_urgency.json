@@ -7,7 +7,8 @@
  "field_order": [
   "urgency",
   "rank",
-  "response_days"
+  "response_days",
+  "colour"
  ],
  "fields": [
   {
@@ -31,11 +32,18 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Days to Respond"
+  },
+  {
+   "description": "Colour of the label attached to a file marked out with this urgency.",
+   "fieldname": "colour",
+   "fieldtype": "Color",
+   "in_list_view": 1,
+   "label": "Colour Label"
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-23 16:00:00.000000",
+ "modified": "2026-11-23 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Correspondence Urgency",
