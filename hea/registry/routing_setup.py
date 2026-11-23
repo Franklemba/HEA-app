@@ -111,7 +111,8 @@ def ensure_workflow():
 	})
 	for state, _style in STATES:
 		for role in REGISTRY:  # heads and officers act through the stage actions, not by editing the form
-			wf.append("states", {"state": state, "doc_status": "0", "allow_edit": role})
+			# Closed declares the record: it is submitted and can no longer be changed (Phase 5).
+			wf.append("states", {"state": state, "doc_status": "1" if state == "Closed" else "0", "allow_edit": role})
 	for state, action, next_state, roles, condition in TRANSITIONS:
 		for role in roles:
 			wf.append("transitions", {"state": state, "action": action, "next_state": next_state, "allowed": role,

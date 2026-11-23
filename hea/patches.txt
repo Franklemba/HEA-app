@@ -8,3 +8,4 @@ hea.patches.set_registry_file_status
 hea.patches.registry_notifications_in_system
 hea.patches.set_file_locations
 hea.patches.fix_movement_notification_names
+hea.patches.declare_closed_correspondence

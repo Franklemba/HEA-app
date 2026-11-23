@@ -33,6 +33,10 @@ class RegistryFile(Document):
 			frappe.throw(_("File {0} already exists.").format(frappe.bold(self.file_number)))
 		self.name = self.file_number
 
+	def onload(self):
+		from hea.registry.confidentiality import log_view
+		log_view(self)
+
 	def validate(self):
 		self.file_title = " ".join((self.file_title or "").split())
 		if frappe.db.get_value("File Subject", self.file_subject, "is_group"):

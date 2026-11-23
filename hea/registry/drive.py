@@ -28,6 +28,9 @@ def file_scan_in_drive(doc):
 	settings = frappe.get_cached_doc("Registry Settings")
 	if not settings.drive_team or "drive" not in frappe.get_installed_apps():
 		return
+	from hea.registry.confidentiality import is_restricted
+	if is_restricted(doc.confidentiality_level):
+		return  # need to know: the scan stays a private attachment, seen only by those who may open the item
 
 	from drive.api.files import get_unused_title, get_upload_path
 	from drive.utils import create_drive_file, get_home_folder, update_file_size

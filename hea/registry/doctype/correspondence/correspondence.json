@@ -59,7 +59,9 @@
   "dispatched_by",
   "received_by",
   "remarks_section",
-  "remarks"
+  "remarks",
+  "corrects_item",
+  "amended_from"
  ],
  "fields": [
   {
@@ -432,11 +434,30 @@
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
+  },
+  {
+   "description": "The declared record this item corrects.",
+   "fieldname": "corrects_item",
+   "fieldtype": "Link",
+   "label": "Corrects",
+   "options": "Correspondence",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Correspondence",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 0,
+ "is_submittable": 1,
  "links": [],
- "modified": "2026-11-23 18:00:00.000000",
+ "modified": "2026-11-24 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Correspondence",
@@ -467,6 +488,7 @@
    "report": 1,
    "role": "Documentation and Registry Officer",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
@@ -479,6 +501,7 @@
    "report": 1,
    "role": "Registry Staff",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {

@@ -154,11 +154,35 @@ after_install = ["hea.registry.setup.after_migrate"]
 # 	}
 # }
 
+REGISTRY_RECORDS = ("Correspondence", "Registry File", "File Subject", "File Movement", "File Request")
+
 doc_events = {
     "Drive Permission": {
         "validate": "hea.overrides.drive_permission.validate",
     },
+    "Confidentiality Level": {
+        "on_update": "hea.registry.confidentiality.clear_cache",
+        "on_trash": "hea.registry.confidentiality.clear_cache",
+    },
+    **{dt: {"on_trash": "hea.registry.records.check_delete"} for dt in REGISTRY_RECORDS},
 }
+
+# Records control (Phase 5): need to know, declared Drive scans, deletion with a reason
+permission_query_conditions = {
+    "Correspondence": "hea.registry.confidentiality.correspondence_query",
+    "Registry File": "hea.registry.confidentiality.registry_file_query",
+    "File Movement": "hea.registry.confidentiality.file_movement_query",
+    "File Request": "hea.registry.confidentiality.file_request_query",
+}
+has_permission = {
+    "Correspondence": "hea.registry.confidentiality.correspondence_permission",
+    "Registry File": "hea.registry.confidentiality.registry_file_permission",
+    "File Movement": "hea.registry.confidentiality.file_movement_permission",
+    "File Request": "hea.registry.confidentiality.file_request_permission",
+}
+override_doctype_class = {"Drive File": "hea.overrides.drive_file.RegistryDriveFile"}
+override_whitelisted_methods = {"drive.api.files.remove_or_restore": "hea.overrides.drive_file.remove_or_restore"}
+doctype_js = {dt: "public/js/registry_record.js" for dt in REGISTRY_RECORDS}
 
 # Scheduled Tasks
 # ---------------

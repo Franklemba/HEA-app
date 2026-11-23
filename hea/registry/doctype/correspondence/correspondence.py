@@ -36,8 +36,18 @@ class Correspondence(Document):
 		self.reference_number = make_autoname(series, doc=self)
 		self.name = self.reference_number
 
+	def onload(self):
+		from hea.registry.confidentiality import log_view
+		log_view(self)
+
+	def before_cancel(self):
+		from hea.registry.records import block_cancel
+		block_cancel(self)
+
 	def validate(self):
 		self.subject = " ".join((self.subject or "").split())
+		self.inherit_file_confidentiality()
+		self.keep_restricted_scans_out_of_drive()
 		self.check_edit_rights()
 		self.check_file_is_open()
 		self.assign_folio()
@@ -52,6 +62,25 @@ class Correspondence(Document):
 	def on_update(self):
 		if self.scan and self.registry_file and not self.scan.startswith(DRIVE_URL_PREFIX):
 			file_scan_in_drive(self)
+
+	# ---- confidentiality ---------------------------------------------------------------------
+
+	def inherit_file_confidentiality(self):
+		"""An item is at least as confidential as the file it is on."""
+		if not self.registry_file:
+			return
+		file_level = frappe.db.get_value("Registry File", self.registry_file, "confidentiality_level")
+		if not file_level or file_level == self.confidentiality_level:
+			return
+		rank = lambda lvl: cint(frappe.db.get_value("Confidentiality Level", lvl, "rank")) if lvl else -1
+		if rank(file_level) > rank(self.confidentiality_level):
+			self.confidentiality_level = file_level
+
+	def keep_restricted_scans_out_of_drive(self):
+		from hea.registry.confidentiality import is_restricted
+		if self.drive_file and is_restricted(self.confidentiality_level) and self.has_value_changed("confidentiality_level"):
+			frappe.throw(_("This item's scan is already in the shared Drive folder. Restricted items keep their scan as a "
+				"private attachment: ask the Documentation and Registry Officer to move the scan before restricting the item."))
 
 	# ---- routing ---------------------------------------------------------------------------------
 

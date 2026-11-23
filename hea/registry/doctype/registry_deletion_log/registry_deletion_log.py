@@ -1,0 +1,11 @@
+# Copyright (c) 2026, Higher Education Authority and contributors
+# For license information, please see license.txt
+
+import frappe
+from frappe.model.document import Document
+
+
+class RegistryDeletionLog(Document):
+	def on_trash(self):
+		if not (frappe.flags.in_uninstall or frappe.flags.in_install):
+			frappe.throw("The deletion log cannot be deleted.", frappe.PermissionError)

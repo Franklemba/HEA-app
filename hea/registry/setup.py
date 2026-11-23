@@ -25,6 +25,14 @@ SUBJECT_GROUPS = (
 
 # Starting lists, created once; Registry edits them in the desk afterwards.
 DEFAULT_URGENCIES = (("Immediate", 3, 1), ("Urgent", 2, 3), ("Routine", 1, 14))
+# Examples until HEA agrees its levels (Phase 0): level, rank, roles who see every item at the level.
+DEFAULT_CONFIDENTIALITY = (
+	("Open", 0, (), "Everyone with access to the registry."),
+	("Restricted", 1, ("Documentation and Registry Officer", "Registry Staff", "Departmental Head",
+		"Management and Authorised Auditors"), "Registry, Departmental Heads and Management, plus the people involved."),
+	("Confidential", 2, ("Documentation and Registry Officer", "Management and Authorised Auditors"),
+		"The Documentation and Registry Officer and Management, plus the people involved."),
+)
 DEFAULT_DELIVERY_MODES = ("Hand Delivery", "Post", "Courier", "Email", "Fax")
 
 INDEX_FILE = Path(__file__).parent / "data" / "file_index_2020.json"
@@ -70,6 +78,11 @@ def ensure_starting_lists():
 		for urgency, rank, days in DEFAULT_URGENCIES:
 			frappe.get_doc({"doctype": "Correspondence Urgency", "urgency": urgency, "rank": rank,
 				"response_days": days}).insert(ignore_permissions=True)
+	if (frappe.db.table_exists("Confidentiality Level") and frappe.get_meta("Confidentiality Level").has_field("allowed_roles")
+			and not frappe.db.count("Confidentiality Level")):
+		for level, rank, roles, description in DEFAULT_CONFIDENTIALITY:
+			frappe.get_doc({"doctype": "Confidentiality Level", "level_name": level, "rank": rank, "description": description,
+				"allowed_roles": [{"role": r} for r in roles]}).insert(ignore_permissions=True)
 	if frappe.db.table_exists("Delivery Mode") and not frappe.db.count("Delivery Mode"):
 		for mode in DEFAULT_DELIVERY_MODES:
 			frappe.get_doc({"doctype": "Delivery Mode", "mode": mode}).insert(ignore_permissions=True)
