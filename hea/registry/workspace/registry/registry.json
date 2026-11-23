@@ -1,0 +1,130 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"reg-h1\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Registry</b></span>\", \"col\": 12}}, {\"id\": \"reg-s0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Registry File\", \"col\": 3}}, {\"id\": \"reg-s1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Subject\", \"col\": 3}}, {\"id\": \"reg-s2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"File Index\", \"col\": 3}}, {\"id\": \"reg-sp\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"reg-c0\", \"type\": \"card\", \"data\": {\"card_name\": \"Files\", \"col\": 4}}, {\"id\": \"reg-c1\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"reg-c2\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
+ "creation": "2026-11-23 13:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "folder-normal",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Registry",
+ "links": [
+  {
+   "type": "Card Break",
+   "label": "Files",
+   "hidden": 0,
+   "link_count": 2,
+   "onboard": 0,
+   "is_query_report": 0
+  },
+  {
+   "type": "Link",
+   "label": "Registry File",
+   "link_type": "DocType",
+   "link_to": "Registry File",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "link_count": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "File Subject",
+   "link_type": "DocType",
+   "link_to": "File Subject",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "link_count": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Reports",
+   "hidden": 0,
+   "link_count": 1,
+   "onboard": 0,
+   "is_query_report": 0
+  },
+  {
+   "type": "Link",
+   "label": "File Index",
+   "link_type": "Report",
+   "link_to": "File Index",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 1,
+   "link_count": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Setup",
+   "hidden": 0,
+   "link_count": 2,
+   "onboard": 0,
+   "is_query_report": 0
+  },
+  {
+   "type": "Link",
+   "label": "Registry Settings",
+   "link_type": "DocType",
+   "link_to": "Registry Settings",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "link_count": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Confidentiality Level",
+   "link_type": "DocType",
+   "link_to": "Confidentiality Level",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "link_count": 0,
+   "dependencies": ""
+  }
+ ],
+ "modified": "2026-11-23 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Registry",
+ "name": "Registry",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 30.0,
+ "shortcuts": [
+  {
+   "label": "Registry File",
+   "link_to": "Registry File",
+   "type": "DocType",
+   "doc_view": "List",
+   "color": "Blue"
+  },
+  {
+   "label": "File Subject",
+   "link_to": "File Subject",
+   "type": "DocType",
+   "doc_view": "Tree",
+   "color": "Cyan"
+  },
+  {
+   "label": "File Index",
+   "link_to": "File Index",
+   "type": "Report",
+   "doc_view": "",
+   "color": "Grey"
+  }
+ ],
+ "title": "Registry"
+}

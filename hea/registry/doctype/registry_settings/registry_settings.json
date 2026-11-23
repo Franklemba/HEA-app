@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "creation": "2026-11-23 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "numbering_section",
+  "file_number_prefix",
+  "domestic_code",
+  "titles_section",
+  "blocked_titles"
+ ],
+ "fields": [
+  {
+   "fieldname": "numbering_section",
+   "fieldtype": "Section Break",
+   "label": "File Numbering"
+  },
+  {
+   "default": "HEA",
+   "description": "First part of every file number, e.g. HEA in HEA/101/1/1.",
+   "fieldname": "file_number_prefix",
+   "fieldtype": "Data",
+   "label": "File Number Prefix",
+   "reqd": 1
+  },
+  {
+   "default": "101",
+   "description": "Code allocated to the Authority. Domestic subjects are numbered under it (101/1, 101/2 ...).",
+   "fieldname": "domestic_code",
+   "fieldtype": "Data",
+   "label": "Domestic Subject Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "titles_section",
+   "fieldtype": "Section Break",
+   "label": "File Titles"
+  },
+  {
+   "default": "General Correspondence\nMiscellaneous",
+   "description": "One per line. A file title containing any of these is refused, as the file index requires.",
+   "fieldname": "blocked_titles",
+   "fieldtype": "Small Text",
+   "label": "Words Not Allowed in File Titles"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-23 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Registry",
+ "name": "Registry Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "role": "Documentation and Registry Officer",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 0,
+   "read": 1,
+   "role": "Registry Staff"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -82,8 +82,10 @@ jinja = {
 # ------------
 
 # workflow and permission fixtures link to these roles, so they must exist before fixtures sync
-before_install = "hea.hea_disciplinary.utils.ensure_roles"
-before_migrate = "hea.hea_disciplinary.utils.ensure_roles"
+before_install = ["hea.hea_disciplinary.utils.ensure_roles", "hea.registry.setup.ensure_roles"]
+before_migrate = ["hea.hea_disciplinary.utils.ensure_roles", "hea.registry.setup.ensure_roles"]
+after_migrate = ["hea.registry.setup.after_migrate"]
+after_install = ["hea.registry.setup.after_migrate"]
 # after_install = "hea.install.after_install"
 
 # Uninstallation

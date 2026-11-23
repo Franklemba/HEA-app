@@ -1,0 +1,198 @@
+{
+ "actions": [],
+ "creation": "2026-11-23 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "subject_code",
+  "subject_name",
+  "subject_type",
+  "column_break_1",
+  "parent_file_subject",
+  "is_group",
+  "disabled",
+  "review_section",
+  "needs_review",
+  "review_note",
+  "description",
+  "lft",
+  "rgt",
+  "old_parent"
+ ],
+ "fields": [
+  {
+   "description": "e.g. 52/12 or 101/1. Leave empty on a new domestic subject to get the next code.",
+   "fieldname": "subject_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Subject Code",
+   "unique": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "subject_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Subject Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subject_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Subject Type",
+   "options": "Portfolio\nDomestic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "parent_file_subject",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent",
+   "options": "File Subject"
+  },
+  {
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "needs_review",
+   "fieldname": "review_section",
+   "fieldtype": "Section Break",
+   "label": "Index Review"
+  },
+  {
+   "fieldname": "needs_review",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Needs Review"
+  },
+  {
+   "fieldname": "review_note",
+   "fieldtype": "Small Text",
+   "label": "Review Note"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Old Parent",
+   "options": "File Subject",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "is_tree": 1,
+ "links": [],
+ "modified": "2026-11-23 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Registry",
+ "name": "File Subject",
+ "naming_rule": "By script",
+ "nsm_parent_field": "parent_file_subject",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Documentation and Registry Officer",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Registry Staff",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Departmental Head"
+  },
+  {
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "General Staff"
+  },
+  {
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Management and Authorised Auditors"
+  }
+ ],
+ "search_fields": "subject_code,subject_type",
+ "show_title_field_in_link": 1,
+ "sort_field": "lft",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "subject_name",
+ "track_changes": 1
+}
