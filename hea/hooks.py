@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["frappe", "erpnext", "hrms"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -74,15 +74,16 @@ app_license = "mit"
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "hea.utils.jinja_methods",
-# 	"filters": "hea.utils.jinja_filters"
-# }
+jinja = {
+	"methods": ["hea.hea_disciplinary.utils.get_employee_user_email"],
+}
 
 # Installation
 # ------------
 
-# before_install = "hea.install.before_install"
+# workflow and permission fixtures link to these roles, so they must exist before fixtures sync
+before_install = "hea.hea_disciplinary.utils.ensure_roles"
+before_migrate = "hea.hea_disciplinary.utils.ensure_roles"
 # after_install = "hea.install.after_install"
 
 # Uninstallation
@@ -150,6 +151,12 @@ app_license = "mit"
 # 		"on_trash": "method"
 # 	}
 # }
+
+doc_events = {
+    "Drive Permission": {
+        "validate": "hea.overrides.drive_permission.validate",
+    },
+}
 
 # Scheduled Tasks
 # ---------------
@@ -253,3 +260,64 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+# Fixtures
+# --------
+# HEA Disciplinary configuration, ported from REA Disciplinary
+
+fixtures = [
+	{
+		"dt": "Custom Field",
+		"filters": [["name", "in", ["Disciplinary-custom_closed_from_stage", "Disciplinary-custom_closed_on", "Disciplinary-custom_closure_col", "Disciplinary-custom_closure_detail", "Disciplinary-custom_closure_outcome", "Disciplinary-custom_closure_section", "Disciplinary-custom_employee_notify_email", "Disciplinary-custom_offender_grade", "Disciplinary-custom_supervisor_notify_email", "Forced leave-disciplinary_case_no", "HR Settings-custom_disciplinary_section", "HR Settings-custom_verbal_warning_validity_months", "HR Settings-custom_written_warning_validity_months", "Hearing Committee-custom_board_member"]]],
+	},
+	{
+		"dt": "Property Setter",
+		"filters": [["name", "in", ["Appeal Verdict-appeal_decision-mandatory_depends_on", "Disciplinary Charges-comments-read_only_depends_on", "Disciplinary Charges-specific_offence-mandatory_depends_on", "Disciplinary Charges-specific_offence-read_only_depends_on", "Disciplinary Charges-warning_expiry_date-read_only", "Disciplinary-appeal_committee_chairperson-read_only_depends_on", "Disciplinary-appeal_committee_section-depends_on", "Disciplinary-appeal_date-placeholder", "Disciplinary-appeal_date-read_only_depends_on", "Disciplinary-appeal_decision-read_only_depends_on", "Disciplinary-appeal_hearing_report-mandatory_depends_on", "Disciplinary-appeal_hearing_report-read_only_depends_on", "Disciplinary-appeal_members-read_only_depends_on", "Disciplinary-appeal_tab-depends_on", "Disciplinary-appeal_time-read_only_depends_on", "Disciplinary-appeal_venue-read_only_depends_on", "Disciplinary-appeal_verdict-read_only_depends_on", "Disciplinary-case_summary-ignore_xss_filter", "Disciplinary-case_summary-options", "Disciplinary-case_summary_tab-depends_on", "Disciplinary-charge_description-allow_in_quick_entry", "Disciplinary-charge_description-description", "Disciplinary-charge_description-mandatory_depends_on", "Disciplinary-charge_description-placeholder", "Disciplinary-charge_description-read_only_depends_on", "Disciplinary-charge_tab-depends_on", "Disciplinary-details_tab-read_only_depends_on", "Disciplinary-employee-in_list_view", "Disciplinary-employee-read_only_depends_on", "Disciplinary-employee_name-in_list_view", "Disciplinary-employee_response-depends_on", "Disciplinary-employee_response-mandatory_depends_on", "Disciplinary-employee_response-read_only_depends_on", "Disciplinary-exculpation_tab-depends_on", "Disciplinary-exculpation_tab-read_only_depends_on", "Disciplinary-grounds_for_appeal-read_only_depends_on", "Disciplinary-hearing-read_only_depends_on", "Disciplinary-hearing_date-in_list_view", "Disciplinary-hearing_date-mandatory_depends_on", "Disciplinary-hearing_date-read_only_depends_on", "Disciplinary-hearing_decision-mandatory_depends_on", "Disciplinary-hearing_decision-read_only_depends_on", "Disciplinary-hearing_outcome-mandatory_depends_on", "Disciplinary-hearing_outcome-read_only_depends_on", "Disciplinary-hearing_outcome_section-depends_on", "Disciplinary-hearing_report-mandatory_depends_on", "Disciplinary-hearing_report-read_only_depends_on", "Disciplinary-hearing_response_deadline-read_only_depends_on", "Disciplinary-hearing_summary-mandatory_depends_on", "Disciplinary-hearing_summary-read_only_depends_on", "Disciplinary-hearing_tab-depends_on", "Disciplinary-hearing_time-read_only_depends_on", "Disciplinary-hearing_venue-default", "Disciplinary-hearing_venue-mandatory_depends_on", "Disciplinary-hearing_venue-placeholder", "Disciplinary-hearing_venue-read_only_depends_on", "Disciplinary-main-field_order", "Disciplinary-reports_and_attachments_section-depends_on", "Disciplinary-response_document-depends_on", "Disciplinary-response_document-read_only_depends_on", "Disciplinary-section_break_ieyi-depends_on", "Disciplinary-section_break_mkzn-depends_on", "Disciplinary-section_break_thtd-depends_on", "Disciplinary-select_outcome-depends_on", "Disciplinary-select_outcome-label", "Disciplinary-select_outcome-mandatory_depends_on", "Disciplinary-select_outcome-options", "Disciplinary-select_outcome-read_only", "Disciplinary-select_outcome-read_only_depends_on", "Disciplinary-set_appeal_date_section-depends_on", "Disciplinary-set_hearing_date_section-depends_on", "Disciplinary-supervisor_satisfactory_reason-depends_on", "Disciplinary-supervisor_satisfactory_reason-mandatory_depends_on", "Disciplinary-warning-depends_on", "Disciplinary-warning-fieldtype", "Disciplinary-warning-mandatory_depends_on", "Disciplinary-warning-read_only_depends_on", "Verdict-verdict-mandatory_depends_on"]]],
+	},
+	{
+		"dt": "Client Script",
+		"filters": [["name", "in", ["Action Buttons on Disciplinary", "Custom Html Block", "Disciplinary Committee Grade Filter", "Disciplinary Main", "Filter Supervisor Only report to", "No duplicate committee Entries"]]],
+	},
+	{
+		"dt": "Server Script",
+		"filters": [["name", "in", ["Appeal Committe", "Auto-calculate Appeal Response Deadline (Invite Committee)", "Auto-calculate Hearing Response Deadline (Invite Committee)", "Auto-calculate response deadline on Issue Charge", "Daily Scheduler", "Disciplinary Case Closure", "Disciplinary Committee Composition", "Issue Charge → Email to Employee", "No duplicate Committe", "Require charge before leaving Charge stage", "Set Hearing Date → Appeal Email", "Set Hearing Date → Email to Committee Members", "Summary dismisal", "Sync Notification Emails"]]],
+	},
+	{
+		"dt": "Print Format",
+		"filters": [["name", "in", ["Disciplinary Report"]]],
+	},
+	{
+		"dt": "Report",
+		"filters": [["name", "in", ["Active Employee Warnings", "Disciplinary action", "Employees on Disciplinary Action"]]],
+	},
+	{
+		"dt": "Notification",
+		"filters": [["name", "in", ["DISC – Appeal Outcome – Email", "DISC – Appeal Requested – Email", "DISC – Appeal Under Review – Email", "DISC – Awaiting Employee Decision – Email", "DISC – Awaiting Exculpation – Email", "DISC – Case Closed – Email", "DISC – Charge Initiated – Email", "DISC – Disciplinary Committee – Email", "DISC – Exculpation Evaluation – Email", "DISC – Grounds for Appeal – Email", "DISC – Hearing Outcome – Email", "DISC – Issue Charge – Email", "DISC – Issue Warning – Email", "DISC – Pending DG Approval – Email", "DISC – Pending Outcome Approval – Email", "DISC – Recommend Disciplinary Hearing – Email", "DISC – Recommendation of Charge – Email", "DISC – Set Appeal Date – Email", "DISC – Set Hearing Date – Email"]]],
+	},
+	{
+		"dt": "Custom DocPerm",
+		"filters": [["name", "in", ["0phvr0mlb7", "14n9qtbcav", "577mps0av9", "578jphsgnu", "7sksds86sd", "8p7hmv6793", "b9h50l6hia", "bepn9ufb8f", "f2l49gn507", "f2l8k12o83", "g2vt75gih1", "rr0ebl8eld", "rr1nv10esm", "thi3ikail5", "tovbq81eau"]]],
+	},
+	{
+		"dt": "Workflow",
+		"filters": [["name", "in", ["Disciplinary"]]],
+	},
+	{
+		"dt": "Workflow State",
+		"filters": [["name", "in", ["Appeal Outcome", "Appeal Requested", "Appeal Under Review", "Awaiting Employee Decision", "Awaiting Exculpation", "Case Closed", "Charge", "Disciplinary Committee", "Draft", "Exculpation Evaluation", "Grounds for Appeal", "Hearing Outcome", "Issue Charge", "Issue Warning", "Pending DG Approval", "Pending Outcome Approval", "Recommend Disciplinary Hearing", "Recommendation of Charge", "Set Appeal Date", "Set Hearing Date"]]],
+	},
+	{
+		"dt": "Workflow Action Master",
+		"filters": [["name", "in", ["Accept Verdict", "Appeal Verdict", "Approve", "Close Case", "Committee Appointed", "Invite Committee", "Issue Charge", "Issue Warning", "Non Satisfactory and Dismissible", "Recommend Charge", "Reject", "Satisfactory and Not Dismissible", "Send", "Submit", "Submit Response"]]],
+	},
+	{
+		"dt": "Number Card",
+		"filters": [["name", "in", ["? Pending Disciplinary Cases"]]],
+	},
+	{
+		"dt": "Dashboard Chart",
+		"filters": [["name", "in", ["Disciplinary"]]],
+	},
+	"Offence Category",
+	"Offence Master",
+	"Offence Sanction Matrix",
+]

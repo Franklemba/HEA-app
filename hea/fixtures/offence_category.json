@@ -1,0 +1,66 @@
+[
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.714418",
+  "name": "Time Keeping and Attendance",
+  "offence_category": "Time Keeping and Attendance"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.739697",
+  "name": "Work Performance",
+  "offence_category": "Work Performance"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.756475",
+  "name": "Indiscipline and Disorderly Conduct",
+  "offence_category": "Indiscipline and Disorderly Conduct"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.766817",
+  "name": "Authority Property and Resources",
+  "offence_category": "Authority Property and Resources"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.774253",
+  "name": "Dishonesty, Fraud and Corruption",
+  "offence_category": "Dishonesty, Fraud and Corruption"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.780454",
+  "name": "Motor Vehicles",
+  "offence_category": "Motor Vehicles"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.786556",
+  "name": "Sexual Harassment",
+  "offence_category": "Sexual Harassment"
+ },
+ {
+  "amended_from": null,
+  "docstatus": 1,
+  "doctype": "Offence Category",
+  "modified": "2026-11-13 16:35:46.792552",
+  "name": "Information Technology",
+  "offence_category": "Information Technology"
+ }
+]
