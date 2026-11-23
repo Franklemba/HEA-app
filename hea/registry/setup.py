@@ -46,14 +46,30 @@ def ensure_subject_groups():
 			}).insert(ignore_permissions=True)
 
 
+def ensure_settings():
+	"""Save Registry Settings once so its defaults (prefix, domestic code, blocked titles) are in force."""
+	if not frappe.db.table_exists("Registry Settings") and not frappe.db.exists("DocType", "Registry Settings"):
+		return
+	settings = frappe.get_single("Registry Settings")
+	changed = False
+	for df in settings.meta.fields:
+		if df.default and not settings.get(df.fieldname):
+			settings.set(df.fieldname, df.default)
+			changed = True
+	if changed:
+		settings.save(ignore_permissions=True)
+
+
 def after_migrate():
 	ensure_roles()
+	ensure_settings()
 	ensure_subject_groups()
 
 
 def import_file_index():
 	"""Load the subjects and files of the 2020 Portfolio and Domestic File Index."""
 	ensure_roles()
+	ensure_settings()
 	ensure_subject_groups()
 	data = json.loads(INDEX_FILE.read_text())
 	frappe.flags.in_import = True
