@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2026-11-23 13:00:00.000000",
+ "creation": "2026-11-23 16:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -8,7 +8,16 @@
   "file_number_prefix",
   "domestic_code",
   "titles_section",
-  "blocked_titles"
+  "blocked_titles",
+  "correspondence_section",
+  "incoming_series",
+  "outgoing_series",
+  "column_break_corr",
+  "internal_series",
+  "drive_section",
+  "drive_team",
+  "column_break_drive",
+  "drive_root_folder"
  ],
  "fields": [
   {
@@ -43,12 +52,65 @@
    "fieldname": "blocked_titles",
    "fieldtype": "Small Text",
    "label": "Words Not Allowed in File Titles"
+  },
+  {
+   "description": "Naming series for each register. .YYYY. is the year and .##### the running number, e.g. HEA/IN/.YYYY./.##### gives HEA/IN/2026/00001. The number restarts when the part before the hashes changes.",
+   "fieldname": "correspondence_section",
+   "fieldtype": "Section Break",
+   "label": "Correspondence Reference Numbers"
+  },
+  {
+   "default": "HEA/IN/.YYYY./.#####",
+   "fieldname": "incoming_series",
+   "fieldtype": "Data",
+   "label": "Incoming",
+   "reqd": 1
+  },
+  {
+   "default": "HEA/OUT/.YYYY./.#####",
+   "fieldname": "outgoing_series",
+   "fieldtype": "Data",
+   "label": "Outgoing",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_corr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "HEA/INT/.YYYY./.#####",
+   "fieldname": "internal_series",
+   "fieldtype": "Data",
+   "label": "Internal",
+   "reqd": 1
+  },
+  {
+   "description": "Scans attached to correspondence are filed in Drive, in a folder per registry file (named by file number, with - for /) under the folder below. Leave the team empty to keep scans as ordinary attachments.",
+   "fieldname": "drive_section",
+   "fieldtype": "Section Break",
+   "label": "Drive"
+  },
+  {
+   "fieldname": "drive_team",
+   "fieldtype": "Link",
+   "label": "Drive Team",
+   "options": "Drive Team"
+  },
+  {
+   "fieldname": "column_break_drive",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Registry Files",
+   "fieldname": "drive_root_folder",
+   "fieldtype": "Data",
+   "label": "Folder for Registry Files"
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-23 13:00:00.000000",
+ "modified": "2026-11-23 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "Registry",
  "name": "Registry Settings",

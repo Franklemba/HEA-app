@@ -23,6 +23,10 @@ SUBJECT_GROUPS = (
 	("Domestic Subjects", "Domestic", "Subjects that are direct responsibilities of the Higher Education Authority."),
 )
 
+# Starting lists, created once; Registry edits them in the desk afterwards.
+DEFAULT_URGENCIES = (("Immediate", 3, 1), ("Urgent", 2, 3), ("Routine", 1, 14))
+DEFAULT_DELIVERY_MODES = ("Hand Delivery", "Post", "Courier", "Email", "Fax")
+
 INDEX_FILE = Path(__file__).parent / "data" / "file_index_2020.json"
 
 
@@ -60,10 +64,22 @@ def ensure_settings():
 		settings.save(ignore_permissions=True)
 
 
+def ensure_starting_lists():
+	"""Create the starting urgencies and delivery modes, only while the lists are empty."""
+	if frappe.db.table_exists("Correspondence Urgency") and not frappe.db.count("Correspondence Urgency"):
+		for urgency, rank, days in DEFAULT_URGENCIES:
+			frappe.get_doc({"doctype": "Correspondence Urgency", "urgency": urgency, "rank": rank,
+				"response_days": days}).insert(ignore_permissions=True)
+	if frappe.db.table_exists("Delivery Mode") and not frappe.db.count("Delivery Mode"):
+		for mode in DEFAULT_DELIVERY_MODES:
+			frappe.get_doc({"doctype": "Delivery Mode", "mode": mode}).insert(ignore_permissions=True)
+
+
 def after_migrate():
 	ensure_roles()
 	ensure_settings()
 	ensure_subject_groups()
+	ensure_starting_lists()
 
 
 def import_file_index():

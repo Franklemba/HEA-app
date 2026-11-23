@@ -10,8 +10,15 @@ frappe.ui.form.on("Registry File", {
 			frm.set_intro(__("The file number is given when you save, as the next number under the subject."));
 			return;
 		}
+		if (frm.doc.drive_folder) {
+			frm.add_custom_button(__("Drive Folder"), () => window.open(`/drive/folder/${frm.doc.drive_folder}`));
+		}
 		const is_registry = REGISTRY_ROLES.some((r) => frappe.user.has_role(r));
 		if (!is_registry) return;
+		if (frm.doc.status === "Open") {
+			frm.add_custom_button(__("Register Correspondence"), () =>
+				frappe.new_doc("Correspondence", { registry_file: frm.doc.name }));
+		}
 
 		if (frm.doc.status === "Open") {
 			frm.add_custom_button(__("Close File"), () => ask_reason(frm, "close_file", __("Close File")));

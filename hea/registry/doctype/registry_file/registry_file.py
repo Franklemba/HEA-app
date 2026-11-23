@@ -37,6 +37,7 @@ class RegistryFile(Document):
 		self.file_title = " ".join((self.file_title or "").split())
 		if frappe.db.get_value("File Subject", self.file_subject, "is_group"):
 			frappe.throw(_("Files are opened under a subject, not a group."))
+		self.status = self.status or "Open"
 		if self.flags.from_index:
 			# Existing paper files keep their index title; a vague one is flagged for Registry, not refused.
 			bad = [w for w in blocked_titles() if w.lower() in self.file_title.lower()]
