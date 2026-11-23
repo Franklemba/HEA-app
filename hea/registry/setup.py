@@ -48,15 +48,15 @@ def ensure_subject_groups():
 
 def ensure_settings():
 	"""Save Registry Settings once so its defaults (prefix, domestic code, blocked titles) are in force."""
-	if not frappe.db.table_exists("Registry Settings") and not frappe.db.exists("DocType", "Registry Settings"):
+	if not frappe.db.exists("DocType", "Registry Settings"):
 		return
+	# get_single() fills in defaults on load, so compare against what is actually stored.
+	stored = frappe.db.get_singles_dict("Registry Settings")
 	settings = frappe.get_single("Registry Settings")
-	changed = False
-	for df in settings.meta.fields:
-		if df.default and not settings.get(df.fieldname):
-			settings.set(df.fieldname, df.default)
-			changed = True
-	if changed:
+	if any(df.default and not stored.get(df.fieldname) for df in settings.meta.fields):
+		for df in settings.meta.fields:
+			if df.default and not stored.get(df.fieldname):
+				settings.set(df.fieldname, df.default)
 		settings.save(ignore_permissions=True)
 
 
