@@ -126,7 +126,9 @@ def ensure_notifications():
 		if frappe.db.exists("Notification", n["name"]):
 			continue
 		doc = frappe.new_doc("Notification")
-		doc.update({**n, "document_type": "Correspondence", "channel": "Email", "send_system_notification": 1,
+		# In-system notifications; each one is also emailed to the user (their Notification Settings) once
+		# an outgoing Email Account exists. An Email channel would fail outright until then.
+		doc.update({**n, "document_type": "Correspondence", "channel": "System Notification",
 			"enabled": 1, "message_type": "HTML"})
 		doc.name = n["name"]
 		doc.insert(ignore_permissions=True, set_name=n["name"])
