@@ -5,6 +5,7 @@ Created once, the way the desk creates them; HEA edits them in the desk afterwar
 
 import frappe
 
+# Notification templates can use frappe.db.get_value but not frappe.utils.get_fullname.
 LINK = '<p><a href="{{ frappe.utils.get_url_to_form(doc.doctype, doc.name) }}">Open</a></p>'
 REGISTRY_ROLES = [{"receiver_by_role": "Registry Staff"}, {"receiver_by_role": "Documentation and Registry Officer"}]
 
@@ -12,8 +13,8 @@ NOTIFICATIONS = (
 	{
 		"name": "File Requested", "document_type": "File Request", "event": "New",
 		"recipients": REGISTRY_ROLES,
-		"subject": "File requested: {{ doc.registry_file }} by {{ frappe.utils.get_fullname(doc.requested_by) }}",
-		"message": "<p>{{ frappe.utils.get_fullname(doc.requested_by) }} asks for file <b>{{ doc.registry_file }}</b> "
+		"subject": "File requested: {{ doc.registry_file }} by {{ frappe.db.get_value('User', doc.requested_by, 'full_name') }}",
+		"message": "<p>{{ frappe.db.get_value('User', doc.requested_by, 'full_name') }} asks for file <b>{{ doc.registry_file }}</b> "
 			"{{ doc.file_title }}{% if doc.needed_by %}, needed by {{ frappe.format(doc.needed_by, {'fieldtype': 'Date'}) }}{% endif %}.</p>"
 			"<p>{{ doc.purpose }}</p>" + LINK,
 	},
@@ -37,8 +38,8 @@ NOTIFICATIONS = (
 		"name": "File Marked Put Away", "document_type": "Registry File", "event": "Value Change",
 		"value_changed": "put_away_requested", "condition": "doc.put_away_requested",
 		"recipients": REGISTRY_ROLES,
-		"subject": "Put Away: collect file {{ doc.name }} from {{ frappe.utils.get_fullname(doc.put_away_by) }}",
-		"message": "<p>{{ frappe.utils.get_fullname(doc.put_away_by) }} has marked file <b>{{ doc.name }}</b> "
+		"subject": "Put Away: collect file {{ doc.name }} from {{ frappe.db.get_value('User', doc.put_away_by, 'full_name') }}",
+		"message": "<p>{{ frappe.db.get_value('User', doc.put_away_by, 'full_name') }} has marked file <b>{{ doc.name }}</b> "
 			"{{ doc.file_title }} Put Away (PA). Collect it and record its return.</p>" + LINK,
 	},
 	{
@@ -47,7 +48,7 @@ NOTIFICATIONS = (
 		"recipients": [{"receiver_by_document_field": "bring_up_by"}] + REGISTRY_ROLES,
 		"subject": "Bring Up today: file {{ doc.name }} {{ doc.file_title }}",
 		"message": "<p>File <b>{{ doc.name }}</b> {{ doc.file_title }} is brought up today"
-			"{% if doc.bring_up_by %} for {{ frappe.utils.get_fullname(doc.bring_up_by) }}{% endif %}.</p>"
+			"{% if doc.bring_up_by %} for {{ frappe.db.get_value('User', doc.bring_up_by, 'full_name') }}{% endif %}.</p>"
 			"{% if doc.bring_up_note %}<p>{{ doc.bring_up_note }}</p>{% endif %}"
 			"<p>It is {{ doc.current_location }}.</p>" + LINK,
 	},
