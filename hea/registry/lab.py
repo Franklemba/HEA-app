@@ -174,7 +174,9 @@ def reset_lab(remove_users=0):
 		files = lab_files()
 		items = lab_correspondence()
 		folder_titles = [f.replace("/", "-") for f in files] or [""]
-		drive = frappe.get_all("Drive File", {"owner": ["in", lab_users()]}, ["name", "path"]) + frappe.get_all(
+		# Lab scans (files, never folders: the shared Registry Files folder may have been made by a lab user) and the
+		# lab files' own folders.
+		drive = frappe.get_all("Drive File", {"owner": ["in", lab_users()], "is_group": 0}, ["name", "path"]) + frappe.get_all(
 			"Drive File", {"is_group": 1, "title": ["in", folder_titles]}, ["name", "path"])
 		for name in items:
 			frappe.db.set_value("Correspondence", name, "docstatus", 2, update_modified=False)
