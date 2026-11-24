@@ -27,6 +27,8 @@ def protecting_record(entity):
 
 
 def refuse_if_protected(entity, action):
+	if frappe.flags.registry_lab_reset:
+		return
 	record = protecting_record(entity)
 	if record:
 		frappe.throw(

@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "creation": "2026-11-24 12:00:00.000000",
+ "description": "Test Lab: sample users and lab files for trying the registry. Not for live use.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro",
+  "lab_section",
+  "lab_status",
+  "clock_section",
+  "days",
+  "last_run"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro",
+   "fieldtype": "HTML",
+   "label": "About the Lab"
+  },
+  {
+   "fieldname": "lab_section",
+   "fieldtype": "Section Break",
+   "label": "Lab"
+  },
+  {
+   "fieldname": "lab_status",
+   "fieldtype": "HTML",
+   "label": "Lab Status"
+  },
+  {
+   "fieldname": "clock_section",
+   "fieldtype": "Section Break",
+   "label": "Lab Clock"
+  },
+  {
+   "default": "1",
+   "description": "Moves every lab date back by this many days, as if that much time had passed, then runs the registry's morning jobs: overdue escalation, overdue paper files, due-tomorrow and Bring Up reminders.",
+   "fieldname": "days",
+   "fieldtype": "Int",
+   "label": "Days to Fast-Forward",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "last_run",
+   "fieldtype": "Small Text",
+   "label": "Last Morning Run",
+   "read_only": 1
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-24 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Registry",
+ "name": "Registry Lab",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "permlevel": 0,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

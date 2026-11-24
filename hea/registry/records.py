@@ -16,7 +16,8 @@ def is_officer(user=None):
 
 def check_delete(doc, method=None):
 	"""on_trash of every protected Registry doctype: only through delete_record, by the Officer."""
-	if frappe.flags.in_install or frappe.flags.in_uninstall or frappe.flags.in_patch or frappe.flags.in_migrate:
+	if (frappe.flags.in_install or frappe.flags.in_uninstall or frappe.flags.in_patch or frappe.flags.in_migrate
+			or frappe.flags.registry_lab_reset):  # the Test Lab's reset removes only lab records
 		return
 	allowed = frappe.flags.registry_deletion or {}
 	if not is_officer():
